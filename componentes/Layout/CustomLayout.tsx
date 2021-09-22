@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Layout } from 'antd';
 
 import {
-  MenuUnfoldOutlined, MenuFoldOutlined, MenuOutlined
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
 
 import { IsLessThan } from '../../helpers/QuerySelector';
@@ -19,8 +21,8 @@ const LayoutStyle = {
     margin: '24px 16px',
     padding: 24,
     height: 'calc(100vh - 112px)',
-  }
-}
+  },
+};
 
 export default function CustomLayout({ children }) {
   const shouldRenderSideBar = !IsLessThan('md');
@@ -31,21 +33,35 @@ export default function CustomLayout({ children }) {
   const toogleCollapse = () => setIsCollapsed(!isCollapsed);
 
   const renderCollapseButton = () => {
-    if(!shouldRenderSideBar) return <MenuOutlined className={styles.trigger} onClick={toogleCollapse} />;
-    if(isCollapsed) return <MenuUnfoldOutlined className={styles.trigger} onClick={toogleCollapse} />;
-    return <MenuFoldOutlined className={styles.trigger} onClick={toogleCollapse} />;
-  }
+    if (!shouldRenderSideBar)
+      return (
+        <MenuOutlined className={styles.trigger} onClick={toogleCollapse} />
+      );
+    if (isCollapsed) {
+      return (
+        <MenuUnfoldOutlined
+          className={styles.trigger}
+          onClick={toogleCollapse}
+        />
+      );
+    }
+    return (
+      <MenuFoldOutlined className={styles.trigger} onClick={toogleCollapse} />
+    );
+  };
 
   const collapsedButtons = renderCollapseButton();
 
   return (
     <>
       <Layout>
-        <SideBar isCollapsed={isCollapsed} shouldRender={shouldRenderSideBar} />
+        <SideBar
+          isCollapsed={isCollapsed}
+          shouldRender={shouldRenderSideBar}
+          onCloseDrawer={toogleCollapse}
+        />
         <Layout className={styles.site_layout}>
-          <NavBar logo={shouldRenderLogoOnNavBar}>
-            {collapsedButtons}
-          </NavBar>
+          <NavBar logo={shouldRenderLogoOnNavBar}>{collapsedButtons}</NavBar>
           <Content
             className={styles.layout_content}
             style={LayoutStyle.content}
@@ -57,4 +73,3 @@ export default function CustomLayout({ children }) {
     </>
   );
 }
-

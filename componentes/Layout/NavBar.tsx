@@ -1,34 +1,36 @@
 import { Layout, Row, Col } from 'antd';
-'@ant-design/icons';
+('@ant-design/icons');
 
 import styles from './Layout.module.css';
 
 const { Header } = Layout;
 
 interface NavBarProps {
-  logo?: unknown,
-  children: unknown
+  logo?: unknown;
+  children: unknown;
 }
 
 export function NavBar(props: NavBarProps) {
-    const renderNavBarItems = () => {
-      if(props.children && !props.logo) return props.children;
-      return <>
+  const renderNavBarItems = () => {
+    if (props.children && !props.logo) return props.children;
+    return (
+      <>
         <Row>
-          <Col span={8}>
+          <Col span={16}>
             <div className={styles.logo} />
           </Col>
-          <Col span={16}>
-            <Row justify="end" align="middle" style={{height: '100%'}}>
+          <Col span={8}>
+            <Row justify="end" align="middle" style={{ height: '100%' }}>
               {props.children}
             </Row>
           </Col>
         </Row>
-      </>;
-    }
-    return (
-      <Header className={styles.site_layout_background} style={{ padding: 0 }}>
-        {renderNavBarItems()}
-      </Header>
+      </>
     );
+  };
+  return (
+    <Header className={styles.site_layout_background} style={{ padding: 0 }}>
+      {renderNavBarItems()}
+    </Header>
+  );
 }
