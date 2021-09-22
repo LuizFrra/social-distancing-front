@@ -10,8 +10,9 @@ import { IsLessThan } from '../../helpers/QuerySelector';
 
 import styles from './Layout.module.css';
 import SideBar from './SideBar';
+import { NavBar } from './NavBar';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const LayoutStyle = {
   content: {
@@ -23,6 +24,7 @@ const LayoutStyle = {
 
 export default function CustomLayout({ children }) {
   const shouldRenderSideBar = !IsLessThan('md');
+  const shouldRenderLogoOnNavBar = !shouldRenderSideBar;
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -34,14 +36,16 @@ export default function CustomLayout({ children }) {
     return <MenuFoldOutlined className={styles.trigger} onClick={toogleCollapse} />;
   }
 
+  const collapsedButtons = renderCollapseButton();
+
   return (
     <>
       <Layout>
         <SideBar isCollapsed={isCollapsed} shouldRender={shouldRenderSideBar} />
         <Layout className={styles.site_layout}>
-          <Header className={styles.site_layout_background} style={{ padding: 0 }}>
-            {renderCollapseButton()}
-          </Header>
+          <NavBar logo={shouldRenderLogoOnNavBar}>
+            {collapsedButtons}
+          </NavBar>
           <Content
             className={styles.layout_content}
             style={LayoutStyle.content}
