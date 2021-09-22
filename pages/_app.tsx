@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 
-import Layout from '../componentes/Layout/layout';
+import Layout from '../componentes/Layout/CustomLayout';
 
 import 'antd/dist/antd.css';
 
