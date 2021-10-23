@@ -28,7 +28,7 @@ export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
   const menu = () => (
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
       <Item key="1" icon={<UserOutlined />}>
-        nav 1
+        Devices
       </Item>
       <Item key="2" icon={<VideoCameraOutlined />}>
         nav 2
@@ -39,6 +39,7 @@ export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
     </Menu>
   );
 
+  // device screen is less or equal md
   if (!shouldRender) {
     return (
       <Drawer
@@ -54,7 +55,7 @@ export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
           trigger={null}
           collapsible
           collapsed={isCollapsed}
-          style={{ height: '100%' }}
+          style={{ height: '100vh' }}
           width="100%"
         >
           {menu()}
@@ -64,7 +65,12 @@ export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
   }
   return (
     <>
-      <Sider trigger={null} collapsible collapsed={isCollapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={isCollapsed}
+        style={{ height: '100vh' }}
+      >
         <div className={styles.logo} />
         {menu()}
       </Sider>

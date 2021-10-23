@@ -18,9 +18,10 @@ const { Content } = Layout;
 
 const LayoutStyle = {
   content: {
-    margin: '24px 16px',
+    margin: '24px 16px 0',
     padding: 24,
     height: 'calc(100vh - 112px)',
+    overflow: 'scroll',
   },
 };
 
