@@ -1,9 +1,5 @@
 import { Card } from 'antd';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import { EditOutlined, LineChartOutlined } from '@ant-design/icons';
 
 export default function DeviceCard({ device }) {
   const { Meta } = Card;
@@ -12,16 +8,9 @@ export default function DeviceCard({ device }) {
   return (
     <Card
       style={{ width: 300, marginTop: 16 }}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
+      actions={[<EditOutlined key="edit" />, <LineChartOutlined key="chart" />]}
     >
-      <Meta
-        // avatar={<Avatar icon={icon} />}
-        title={identifier}
-      />
+      <Meta title={identifier} />
     </Card>
   );
 }

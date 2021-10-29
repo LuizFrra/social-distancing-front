@@ -13,6 +13,7 @@
     "eslint": "eslint --fix ."
   },
   "dependencies": {
+    "@ant-design/charts": "^1.2.14",
     "@ant-design/icons": "^4.6.3",
     "antd": "^4.15.6",
     "next": "11.1.0",
