@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-const Column = dynamic(() => import('../../../componentes/teste/Column'), {
+const Column = dynamic(() => import('../../../componentes/antd/Column'), {
   ssr: false,
 });
 
