@@ -13,7 +13,7 @@ abstract class BaseService {
       .catch((err) => {
         console.log(err);
         return [];
-      })
+      });
   }
 
   async getById(id: unknown) {

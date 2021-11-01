@@ -5,43 +5,49 @@ import { useRouter } from 'next/router';
 
 import DeviceService from '../../../services/DeviceService';
 
-const ReactApexChart = dynamic(() => import('../../../componentes/charts/ReactApexChart'), {
-  ssr: false,
-});
+const ReactApexChart = dynamic(
+  () => import('../../../componentes/charts/ReactApexChart'),
+  {
+    ssr: false,
+  }
+);
 
-const options: ApexCharts.ApexOptions =  {
+const options: ApexCharts.ApexOptions = {
   chart: {
     type: 'area',
     height: 350,
-    
   },
   dataLabels: {
-    enabled: true
+    enabled: true,
   },
   stroke: {
-    width: 3
+    width: 3,
   },
   xaxis: {
     labels: {
       formatter: function (value, timestamp) {
         const date = new Date(timestamp);
-        return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-      }, 
-    }
-  }
+        return (
+          date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+        );
+      },
+    },
+  },
 };
 
 const fetchDeviceLogs = async (deviceId) => {
   return await DeviceService.getLogsByDevice(deviceId);
-}
+};
 
 const transformDataToSeries = (data) => {
   const numberOfObjects = [];
   const numberOfNearObjects = [];
 
-  data.forEach(element => {
+  data.forEach((element) => {
     const timestamp = element.timestamp;
-    const numberOfNearObjectsValue = parseInt(element.payload.number_of_near_objects);
+    const numberOfNearObjectsValue = parseInt(
+      element.payload.number_of_near_objects
+    );
     const numberOfObjectsValue = parseInt(element.payload.number_of_objets);
     numberOfNearObjects.push([timestamp, numberOfNearObjectsValue]);
     numberOfObjects.push([timestamp, numberOfObjectsValue]);
@@ -50,26 +56,26 @@ const transformDataToSeries = (data) => {
   return [
     {
       name: 'Qtd de Pessoas',
-      data: numberOfObjects
+      data: numberOfObjects,
     },
     {
       name: 'Qtd de Pessoas Próximas',
-      data: numberOfNearObjects
-    }
+      data: numberOfNearObjects,
+    },
   ];
-}
+};
 
 export default function Live() {
   const router = useRouter();
   const deviceId = router.query.deviceId;
 
-  const [series, setSeries] = useState([{data: []}]);
+  const [series, setSeries] = useState([{ data: [] }]);
   const [refreshToken, setRefreshToken] = useState(Math.random());
 
   useEffect(() => {
-    if(deviceId != undefined) {
+    if (deviceId != undefined) {
       const deviceLogs = fetchDeviceLogs(deviceId);
-      deviceLogs.then(data => {
+      deviceLogs.then((data) => {
         const series = transformDataToSeries(data);
         setSeries(series);
       });
@@ -78,5 +84,12 @@ export default function Live() {
     }
   }, [refreshToken, deviceId]);
 
-  return <ReactApexChart options={options} series={series} type="area" height={350} />;
+  return (
+    <ReactApexChart
+      options={options}
+      series={series}
+      type="area"
+      height={350}
+    />
+  );
 }
