@@ -1,6 +1,6 @@
 abstract class BaseService {
-  url: string;
-  basePath: string;
+  protected url: string;
+  protected basePath: string;
 
   constructor(url, basePath) {
     this.url = url;
@@ -10,8 +10,10 @@ abstract class BaseService {
   async get() {
     return fetch(`${this.url}${this.basePath}`)
       .then((response) => response.json())
-      .catch((error) => console.log(error))
-      .catch(() => []);
+      .catch((err) => {
+        console.log(err);
+        return [];
+      })
   }
 
   async getById(id: unknown) {

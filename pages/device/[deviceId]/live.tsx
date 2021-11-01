@@ -1,58 +1,82 @@
-import dynamic from 'next/dynamic';
-
 import React, { useState, useEffect } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-const Column = dynamic(() => import('../../../componentes/antd/Column'), {
+import DeviceService from '../../../services/DeviceService';
+
+const ReactApexChart = dynamic(() => import('../../../componentes/charts/ReactApexChart'), {
   ssr: false,
 });
 
-function getColumnConfig(data) {
-  return {
-    data: data,
-    isStack: true,
-    xField: 'year',
-    yField: 'value',
-    seriesField: 'type',
-    label: {
-      style: {
-        fill: 'red',
-        opacity: 1.0,
-        fontSize: 24,
-      },
+const options: ApexCharts.ApexOptions =  {
+  chart: {
+    type: 'area',
+    height: 350,
+    
+  },
+  dataLabels: {
+    enabled: true
+  },
+  stroke: {
+    width: 3
+  },
+  xaxis: {
+    labels: {
+      formatter: function (value, timestamp) {
+        const date = new Date(timestamp);
+        return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+      }, 
+    }
+  }
+};
+
+const fetchDeviceLogs = async (deviceId) => {
+  return await DeviceService.getLogsByDevice(deviceId);
+}
+
+const transformDataToSeries = (data) => {
+  const numberOfObjects = [];
+  const numberOfNearObjects = [];
+
+  data.forEach(element => {
+    const timestamp = element.timestamp;
+    const numberOfNearObjectsValue = parseInt(element.payload.number_of_near_objects);
+    const numberOfObjectsValue = parseInt(element.payload.number_of_objets);
+    numberOfNearObjects.push([timestamp, numberOfNearObjectsValue]);
+    numberOfObjects.push([timestamp, numberOfObjectsValue]);
+  });
+
+  return [
+    {
+      name: 'Qtd de Pessoas',
+      data: numberOfObjects
     },
-  };
+    {
+      name: 'Qtd de Pessoas Próximas',
+      data: numberOfNearObjects
+    }
+  ];
 }
 
 export default function Live() {
   const router = useRouter();
   const deviceId = router.query.deviceId;
 
-  const [data, setData] = useState([]);
+  const [series, setSeries] = useState([{data: []}]);
   const [refreshToken, setRefreshToken] = useState(Math.random());
 
   useEffect(() => {
-    asyncFetch();
-  }, [refreshToken]);
-
-  const asyncFetch = () => {
-    fetch(
-      'https://gw.alipayobjects.com/os/antfincdn/8elHX%26irfq/stack-column-data.json'
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log('fetch data failed', error);
-      })
-      .finally(() => {
-        console.log('buscando');
-        setTimeout(() => setRefreshToken(Math.random()), 3000);
+    if(deviceId != undefined) {
+      const deviceLogs = fetchDeviceLogs(deviceId);
+      deviceLogs.then(data => {
+        const series = transformDataToSeries(data);
+        setSeries(series);
       });
-  };
+      console.log(deviceId);
+      setTimeout(() => setRefreshToken(Math.random()), 500);
+    }
+  }, [refreshToken, deviceId]);
 
-  console.log(data);
-
-  console.log(deviceId);
-  return <Column {...getColumnConfig(data)} />;
+  return <ReactApexChart options={options} series={series} type="area" height={350} />;
 }
