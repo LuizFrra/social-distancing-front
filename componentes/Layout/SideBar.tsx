@@ -1,11 +1,8 @@
+import Link from 'next/link';
+
 import { Layout, Menu, Drawer } from 'antd';
 
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  CloseOutlined,
-} from '@ant-design/icons';
+import { UserOutlined, CloseOutlined } from '@ant-design/icons';
 
 import styles from './Layout.module.css';
 
@@ -17,6 +14,14 @@ const headerStyle = {
   border: '0',
 };
 
+const LinkItem = ({ name, path, ...other }) => (
+  <Item icon={<UserOutlined />} {...other}>
+    <Link href={path}>
+      <a>{name}</a>
+    </Link>
+  </Item>
+);
+
 export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
   const closeDrawerIcon = () => (
     <CloseOutlined
@@ -27,15 +32,7 @@ export default function SideBar({ isCollapsed, shouldRender, onCloseDrawer }) {
 
   const menu = () => (
     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-      <Item key="1" icon={<UserOutlined />}>
-        Devices
-      </Item>
-      <Item key="2" icon={<VideoCameraOutlined />}>
-        nav 2
-      </Item>
-      <Item key="3" icon={<UploadOutlined />}>
-        nav 3
-      </Item>
+      <LinkItem name="Devices" path="/" />
     </Menu>
   );
 

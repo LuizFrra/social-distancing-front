@@ -79,7 +79,6 @@ export default function Live() {
         const series = transformDataToSeries(data);
         setSeries(series);
       });
-      console.log(deviceId);
       setTimeout(() => setRefreshToken(Math.random()), 500);
     }
   }, [refreshToken, deviceId]);
