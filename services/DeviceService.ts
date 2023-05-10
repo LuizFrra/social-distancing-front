@@ -12,4 +12,4 @@ class DeviceService extends BaseService {
   }
 }
 
-export default new DeviceService('http://168.119.178.10/api/v1', '/device');
+export default new DeviceService('http://localhost:8080/api/v1', '/device');
