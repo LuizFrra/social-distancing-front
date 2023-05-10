@@ -18,7 +18,7 @@ export default function DeviceCard({ device }) {
     <Card
       style={{ width: 300, marginTop: 16 }}
       actions={[
-        <EditOutlined key="edit" />,
+        // <EditOutlined key="edit" />,
         <LinkIcon deviceId={device.id} key="chart" />,
       ]}
     >

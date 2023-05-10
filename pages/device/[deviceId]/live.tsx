@@ -43,15 +43,19 @@ const transformDataToSeries = (data) => {
   const numberOfObjects = [];
   const numberOfNearObjects = [];
 
-  data.forEach((element) => {
-    const timestamp = element.timestamp;
-    const numberOfNearObjectsValue = parseInt(
-      element.payload.number_of_near_objects
-    );
-    const numberOfObjectsValue = parseInt(element.payload.number_of_objets);
-    numberOfNearObjects.push([timestamp, numberOfNearObjectsValue]);
-    numberOfObjects.push([timestamp, numberOfObjectsValue]);
-  });
+  console.log(data)
+
+  if (data != undefined) {
+    data.forEach((element) => {
+      const timestamp = element.timestamp;
+      const numberOfNearObjectsValue = parseInt(
+        element.payload.number_of_near_objects
+      );
+      const numberOfObjectsValue = parseInt(element.payload.number_of_objets);
+      numberOfNearObjects.push([timestamp, numberOfNearObjectsValue]);
+      numberOfObjects.push([timestamp, numberOfObjectsValue]);
+    });
+  }
 
   return [
     {
