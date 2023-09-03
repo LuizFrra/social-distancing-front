@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Layout, Menu, Drawer } from 'antd';
 
-import { UserOutlined, CloseOutlined } from '@ant-design/icons';
+import { UserOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
 
 import styles from './Layout.module.css';
 
