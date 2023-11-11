@@ -21,6 +21,7 @@ export function AddDeviceModal () {
   };
   
   const showModal = () => {
+    console.log('oi');
     setIsModalOpen(true);
   };
 
@@ -37,7 +38,7 @@ export function AddDeviceModal () {
       <Button type="primary" onClick={showModal}>
         Add Device
       </Button>
-      <Modal title="Add Device" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Add Device" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
